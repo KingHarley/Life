@@ -24,11 +24,13 @@ namespace Life
 
         public State GetNewCellState(State[] neighbours)
         {
-            if (neighbours.Count() > 4)
-                throw new Exception($"Cell cannot have more than 4 neighbours. Something went wrong.");
+            var maxNeighbours = 8;
+            var minNeighbours = 3;
+            if (neighbours.Count() > maxNeighbours)
+                throw new Exception($"Cell cannot have more than {maxNeighbours} neighbours. Something went wrong.");
 
-            if (neighbours.Count() < 2)
-                throw new Exception($"A cell cannot have less than 2 neighbours. Something went wrong.");
+            if (neighbours.Count() < minNeighbours)
+                throw new Exception($"A cell cannot have less than {minNeighbours} neighbours. Something went wrong.");
 
             var aliveNeighbours = neighbours.Where(s => s == State.Alive).Count();
 
