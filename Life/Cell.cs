@@ -22,7 +22,7 @@ namespace Life
             Rectangle = rectangle;
         }
 
-        public State GetNewCellState(State[] neighbours)
+        public Cell GetNewCellState(Cell[] neighbours)
         {
             var maxNeighbours = 8;
             var minNeighbours = 3;
@@ -32,15 +32,16 @@ namespace Life
             if (neighbours.Count() < minNeighbours)
                 throw new Exception($"A cell cannot have less than {minNeighbours} neighbours. Something went wrong.");
 
-            var aliveNeighbours = neighbours.Where(s => s == State.Alive).Count();
+            var aliveNeighbours = neighbours.Where(c => c.State == State.Alive).Count();
 
 #pragma warning disable 8524
-            return State switch
+            var newState = State switch
             {
                 State.Alive => (aliveNeighbours == 2 || aliveNeighbours == 3) ? State.Alive : State.Dead,
                 State.Dead => aliveNeighbours == 3 ? State.Alive : State.Dead
             };
 #pragma warning restore 8524
+            return new Cell(newState, Rectangle);
         }
     }
 }

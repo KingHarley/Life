@@ -16,13 +16,22 @@ namespace Life
             var graphics = e.Graphics;
             var aliveBrush = new SolidBrush(Color.White);
             var deadBrush = new SolidBrush(Color.Black);
+            graphics.FillRectangle(deadBrush, ClientRectangle);
+
 
             for (int i = World.Cells.GetLowerBound(0); i < World.Cells.GetUpperBound(0); i++)
                 for (int j = World.Cells.GetLowerBound(1); j < World.Cells.GetUpperBound(1); j++)
                 {
                     var cell = World.Cells[i, j];
-                    graphics.FillRectangle(cell.State == State.Alive ? aliveBrush : deadBrush, World.Cells[i, j].Rectangle);
+                    if (cell.State == State.Alive)
+                        graphics.FillRectangle(aliveBrush, cell.Rectangle);
                 }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            World = new World(World.GetNewCells(World.Cells));
+            Invalidate();
         }
     }
 }
